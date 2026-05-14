@@ -56,7 +56,7 @@ export default function Home() {
         <Show when={entries()}>
           {(entries) => (
             <Show
-              when={entries()?.length !== 0}
+              when={entries().length !== 0}
               fallback={
                 <div class="vstack">
                   Nothing here
@@ -110,11 +110,8 @@ export default function Home() {
                   type="button"
                   data-variant="danger"
                   class="large"
-                  onclick={async () => {
-                    await deleteEntry(id());
-                    await revalidate(getEntries.key);
-                    setI(Math.max(entries().length - 1, 0));
-                  }}
+                  commandfor="delete-dialog"
+                  command="show-modal"
                 >
                   Delete
                 </button>
@@ -123,6 +120,37 @@ export default function Home() {
           )}
         </Show>
       </div>
+
+      <dialog id="delete-dialog">
+        <form
+          method="dialog"
+          onsubmit={async () => {
+            await deleteEntry(id());
+            await revalidate(getEntries.key);
+            setI(Math.max(entries()!.length - 1, 0));
+          }}
+        >
+          <header>
+            <h3>Delete entry</h3>
+          </header>
+          <div>
+            <textarea readonly value={content()} rows="5"></textarea>
+          </div>
+          <footer>
+            <button
+              type="button"
+              commandfor="delete-dialog"
+              command="close"
+              class="outline"
+            >
+              Cancel
+            </button>
+            <button type="submit" data-variant="danger">
+              Delete
+            </button>
+          </footer>
+        </form>
+      </dialog>
     </main>
   );
 }
