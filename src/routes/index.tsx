@@ -134,7 +134,9 @@ export default function Home() {
             <h3>Delete entry</h3>
           </header>
           <div>
-            <textarea readonly value={content()} rows="5"></textarea>
+            <textarea readonly value={content()} rows="5">
+              {content()}
+            </textarea>
           </div>
           <footer>
             <button
