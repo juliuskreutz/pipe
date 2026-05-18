@@ -74,6 +74,9 @@ export default function Home() {
                 </div>
               }
             >
+              <h1>
+                {i() + 1}/{entries().length}
+              </h1>
               <textarea
                 value={content()}
                 oninput={(e) => setContent(e.target.value)}
